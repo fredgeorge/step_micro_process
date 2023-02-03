@@ -4,7 +4,7 @@
  * Licensed under the MIT License; see LICENSE file in root.
  */
 
-package com.nrkei.project.template
+package com.nrkei.microprocess.step
 
 // Understands a four-sided polygon with sides at right angles
 class Rectangle(private val length: Double, private val width: Double) {

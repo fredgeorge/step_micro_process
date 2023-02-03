@@ -4,7 +4,6 @@ Copyright (c) 2022 by Fred George
 author: Fred George  fredgeorge@acm.org  
 Licensed under the MIT License; see LICENSE file in root.
 
-
 ## Starting template for Kotlin project using Gradle
 
 Kotlin is relatively easy to setup with IntelliJ IDEA. 
@@ -16,7 +15,7 @@ Adapt as necessary for your environment.
 
 Note: This implementation was setup to use:
 
-- IntelliJ 2022.3.1 (Ultimate Edition)
+- IntelliJ 2022.3.2 (Ultimate Edition)
 - Kotlin 1.8.0
 - Java SDK 19 (Oracle)
 - Gradle 7.6

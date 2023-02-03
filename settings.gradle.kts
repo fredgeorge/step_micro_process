@@ -4,5 +4,5 @@
  * Licensed under the MIT License; see LICENSE file in root.
  */
  
-rootProject.name = "kotlin_template"
+rootProject.name = "step_micro_process"
 include("engine", "tests")
