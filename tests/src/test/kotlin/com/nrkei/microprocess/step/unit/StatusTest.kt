@@ -32,6 +32,12 @@ internal class StatusTest {
             assertEquals(UNSATISFIED, status.state)
             stringNeedB be "B"
             assertEquals(SATISFIED, status.state)
+            stringNeedA.reset()
+            assertEquals(UNSATISFIED, status.state)
+            stringNeedA be "A"
+            assertEquals(SATISFIED, status.state)
+            stringNeedB be ""
+            assertEquals(UNSATISFIED, status.state)
         }
     }
 
