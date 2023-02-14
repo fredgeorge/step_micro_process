@@ -12,9 +12,9 @@ import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
 class StringValueNeed(override val label: NeedLabel): LabeledNeed {
     private var value: String? = null
 
-    override val state = if (value.isNullOrEmpty()) UNSATISFIED else SATISFIED
+    override val state get() = if (value.isNullOrEmpty()) UNSATISFIED else SATISFIED
 
-    infix fun set(value: String) {
+    infix fun be(value: String) {
         this.value = value
     }
 
