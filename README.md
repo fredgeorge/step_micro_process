@@ -50,7 +50,7 @@ successfully from the Gradle __test__ task.
 There are two fundamental concepts modeled:
 
 - __Step:__ Something that must be done, and
-- __Status:__ The current state of the process.
+- __Status:__ The current state of the overall process.
 
 #### Status
 
@@ -65,41 +65,42 @@ something that requires correction to complete the process.
 - Has a valid value. We refer to this as _Satisified_.
 
 A Need may get a value from a Step, or it may be provided
-by external sources (an application, for example).
+by external sources (an external service, for example).
 
 #### Step
 
 Each Step manipulates one or more Needs. It may optionally 
-specify requirements prior to executing:
+specify required Needs prior to executing:
 
 - Requirements: Satisified Needs that must exist prior 
 to execution, and
 - Inhibitors: Needs that should not exist yet. Inhibitors can
-keep a Step from continually running when it has already run successfully.
+keep a Step from continually running when it has already run 
+successfully.
 
 #### Order Independent Flow
 
 While Steps may be completely independent of each other, a
-Step may not be able to run until some other Step has satisfied
+Step may not be able to run until some other Step has supplied
 some specific Need the Step requires. This is managed by specifying
 the Requirements (and Inhibitors) for the Step. Thus when asked to
 execute, the Step may decline due to unmet Requirements.
 
-Steps can be processed in any order. The hypervisor will continually
-execute Steps in a loop until nothing in Status changes. At this 
-point, a steady state has been reached, and any further execution 
-is pointless. 
+Steps can be processed in any order. The hypervisor will 
+continually execute the sequence of Steps in a loop until 
+nothing in Status changes. At this point, a steady state
+has been reached, and any further execution is pointless. 
 
 So if Step A needs information from Step B, but Step
 A runs before Step B, the Steps will be processed twice. In 
 the first pass, Step A can't run since a Need is Unsatisfied.
-In that same pass, however, Step B does run, and updates the
+Later in that same pass, however, Step B does run, and updates the
 prerequisite Need. The Status has changed, and another pass 
 will occur. Now Step A has the information necessary, and can 
 execute.
 
 Once the Status has reached a steady state (ie, no Step has 
-changed anything during a pass), that ending Status at the 
+changed anything during a pass), the final Status at the 
 end of the process determines the next action.
 If all the Needs have been Satisified, the process is complete. If
 any Need is now a Problem, the process will not complete until a
