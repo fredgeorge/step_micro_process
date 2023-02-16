@@ -22,4 +22,12 @@ class StringValueNeed(override val label: NeedLabel): LabeledNeed {
     fun reset() {
         this.value = null
     }
+
+    override fun clone() = StringValueNeed(label).also { it.value = value }
+
+    override fun equals(other: Any?) = this === other || other is StringValueNeed && this.equals(other)
+
+    private fun equals(other: StringValueNeed) = this.label == other.label && this.value == other.value
+
+    override fun hashCode() = value.hashCode() * 37 + label.hashCode()
 }

@@ -24,4 +24,13 @@ class ChoiceNeed (override val label: NeedLabel, private val validValues: List<S
     infix fun be(value: String) { this.value = value }
 
     fun reset() { value = null }
+
+    override fun clone() = ChoiceNeed(label, validValues).also { it.value = value }
+
+    override fun equals(other: Any?) = this === other || other is ChoiceNeed && this.equals(other)
+
+    private fun equals(other: ChoiceNeed) =
+        this.label == other.label && this.validValues == other.validValues && this.value == other.value
+
+    override fun hashCode() = label.hashCode() * 37 + validValues.hashCode() * 43 + value.hashCode()
 }

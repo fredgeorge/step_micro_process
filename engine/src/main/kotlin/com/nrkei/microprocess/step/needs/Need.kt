@@ -9,6 +9,7 @@ package com.nrkei.microprocess.step.needs
 // Understands a choice
 interface Need {
     val state: NeedState
+    fun clone(): Need
 }
 
 // Enumerates possible choice outcomes

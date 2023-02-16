@@ -25,15 +25,17 @@ class IntegerNeed private constructor(
         fun positiveWithMin(label: NeedLabel, minimum: Int) =
             IntegerNeed(label, minimum, Int.MAX_VALUE)
     }
+
     private var value: Int? = null
 
-    override val state: NeedState get() {
-        return when(value) {
-            null -> UNSATISFIED
-            in (minimum..maximum) -> SATISFIED
-            else -> PROBLEM
+    override val state: NeedState
+        get() {
+            return when (value) {
+                null -> UNSATISFIED
+                in (minimum..maximum) -> SATISFIED
+                else -> PROBLEM
+            }
         }
-    }
 
     infix fun be(value: Int) {
         this.value = value
@@ -43,4 +45,16 @@ class IntegerNeed private constructor(
         value = null
     }
 
+    override fun clone() = IntegerNeed(label, minimum, maximum).also { it.value = value }
+
+    override fun equals(other: Any?) = this === other || other is IntegerNeed && this.equals(other)
+
+    private fun equals(other: IntegerNeed) =
+        this.label == other.label &&
+                this.minimum == other.minimum &&
+                this.maximum == other.maximum &&
+                this.value == other.value
+
+    override fun hashCode() =
+        label.hashCode() * 37 + minimum.hashCode() * 43 + maximum.hashCode() * 47 + value.hashCode()
 }
