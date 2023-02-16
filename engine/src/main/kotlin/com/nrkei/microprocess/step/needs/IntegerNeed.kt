@@ -18,6 +18,12 @@ class IntegerNeed private constructor(
     companion object {
         fun range(label: NeedLabel, minimum: Int, maximum: Int) =
             IntegerNeed(label, minimum, maximum)
+
+        fun positiveWithMax(label: NeedLabel, maximum: Int) =
+            IntegerNeed(label, 1, maximum)
+
+        fun positiveWithMin(label: NeedLabel, minimum: Int) =
+            IntegerNeed(label, minimum, Int.MAX_VALUE)
     }
     private var value: Int? = null
 
