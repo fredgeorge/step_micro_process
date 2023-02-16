@@ -9,6 +9,7 @@ package com.nrkei.microprocess.step.needs
 import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
 import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
 
+// Understands a text-based choice
 class StringValueNeed(override val label: NeedLabel): LabeledNeed {
     private var value: String? = null
 

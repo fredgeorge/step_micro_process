@@ -8,6 +8,7 @@ package com.nrkei.microprocess.step.needs
 
 import com.nrkei.microprocess.step.needs.NeedState.*
 
+// Understands a choice within a range of values
 class IntegerNeed private constructor(
     override val label: NeedLabel,
     private val minimum: Int,

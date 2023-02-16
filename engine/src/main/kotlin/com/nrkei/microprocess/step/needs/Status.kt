@@ -8,7 +8,7 @@ package com.nrkei.microprocess.step.needs
 
 import com.nrkei.microprocess.step.needs.NeedState.*
 
-// Understands
+// Understands choices for a process
 class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>) {
 
     constructor() : this(mutableMapOf())
