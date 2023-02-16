@@ -37,13 +37,11 @@ class IntegerNeed private constructor(
             }
         }
 
-    infix fun be(value: Int) {
-        this.value = value
-    }
+    infix fun be(value: Int) { this.value = value }
 
-    fun reset() {
-        value = null
-    }
+    override fun currentValue() = value
+
+    fun reset() { value = null }
 
     override fun clone() = IntegerNeed(label, minimum, maximum).also { it.value = value }
 

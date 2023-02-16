@@ -15,13 +15,11 @@ class StringValueNeed(override val label: NeedLabel): LabeledNeed {
 
     override val state get() = if (value.isNullOrEmpty()) UNSATISFIED else SATISFIED
 
-    infix fun be(value: String) {
-        this.value = value
-    }
+    infix fun be(value: String) { this.value = value }
 
-    fun reset() {
-        this.value = null
-    }
+    override fun currentValue() = value
+
+    fun reset() { this.value = null }
 
     override fun clone() = StringValueNeed(label).also { it.value = value }
 

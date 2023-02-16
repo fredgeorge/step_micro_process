@@ -8,8 +8,7 @@ package com.nrkei.microprocess.step.unit
 
 import com.nrkei.microprocess.step.needs.*
 import com.nrkei.microprocess.step.unit.SnapshotTest.TestLabels.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -51,6 +50,17 @@ internal class SnapshotTest {
             assertEquals(emptyList<Need>(), changes.additions)
             assertEquals(listOf(stringNeedA), changes.deletions)
             assertEquals(emptyList<Status.Change>(), changes.changes)
+        }
+    }
+
+    @Test fun `Changes detected`() {
+        stringNeedA be "A2"
+        (current diff snapshot).also { changes ->
+            assertEquals(emptyList<Need>(), changes.additions)
+            assertEquals(emptyList<Need>(), changes.deletions)
+            assertEquals(1, changes.changes.size)
+            assertNull(changes.changes.first().originalValue)
+            assertEquals("A2", changes.changes.first().currentValue)
         }
     }
 

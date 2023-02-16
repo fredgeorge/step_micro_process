@@ -23,6 +23,8 @@ class ChoiceNeed (override val label: NeedLabel, private val validValues: List<S
 
     infix fun be(value: String) { this.value = value }
 
+    override fun currentValue() = value
+
     fun reset() { value = null }
 
     override fun clone() = ChoiceNeed(label, validValues).also { it.value = value }

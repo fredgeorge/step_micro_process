@@ -28,11 +28,17 @@ class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>
     infix fun diff(other: Status) = Changes().also { changes ->
         changes.additions = this.additionsTo(other)
         changes.deletions = other.additionsTo(this)
-        changes.changes = emptyList()
+        changes.changes = valueDifferences(other)
     }
 
     private fun additionsTo(other: Status): List<Need> =
         (this.needs.keys - other.needs.keys).mapNotNull { this.needs[it] }
+
+    private fun valueDifferences(other: Status): List<Change> =
+        this.needs.keys
+            .filter { other.needs.containsKey(it) }
+            .filterNot { this.needs[it]?.currentValue() == other.needs[it]?.currentValue() }
+            .map { Change(it, other.needs[it]?.currentValue(), this.needs[it]?.currentValue()) }
 
     inner class Changes internal constructor() {
         lateinit var additions: List<Need>
