@@ -70,7 +70,7 @@ by external sources (an external service, for example).
 #### Step
 
 Each Step manipulates one or more Needs. It may optionally 
-specify required Needs prior to executing:
+specify prerequisite Needs prior to executing:
 
 - Requirements: Satisified Needs that must exist prior 
 to execution, and

@@ -6,10 +6,11 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.*
+import com.nrkei.microprocess.step.needs.IntegerNeed
 import com.nrkei.microprocess.step.needs.NeedState.*
-import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
-import com.nrkei.microprocess.step.unit.StatusTest.TestLabels.*
+import com.nrkei.microprocess.step.needs.Status
+import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.util.TestLabel.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -22,7 +23,7 @@ internal class StatusTest {
     @BeforeEach fun setup() {
         stringNeedA = StringValueNeed(A)
         stringNeedB = StringValueNeed(B)
-        integerNeedC = IntegerNeed.range(C, 18, 65)
+        integerNeedC = IntegerNeed.range(I, 18, 65)
     }
 
     @Test fun `Status is Unsatisfied if any Need is Unsatisfied`() {
@@ -61,9 +62,5 @@ internal class StatusTest {
             integerNeedC.reset()
             assertEquals(UNSATISFIED, status.state)
         }
-    }
-
-    private enum class TestLabels: NeedLabel {
-        A, B, C
     }
 }

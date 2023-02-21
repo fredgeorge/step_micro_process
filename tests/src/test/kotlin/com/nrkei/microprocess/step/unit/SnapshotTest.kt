@@ -6,8 +6,11 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.*
-import com.nrkei.microprocess.step.unit.SnapshotTest.TestLabels.*
+import com.nrkei.microprocess.step.needs.IntegerNeed
+import com.nrkei.microprocess.step.needs.Need
+import com.nrkei.microprocess.step.needs.Status
+import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.util.TestLabel.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,7 +26,7 @@ internal class SnapshotTest {
     fun setup() {
         stringNeedA = StringValueNeed(A)
         stringNeedB = StringValueNeed(B)
-        integerNeedC = IntegerNeed.range(C, 18, 65)
+        integerNeedC = IntegerNeed.range(I, 18, 65)
         current = Status().also {
             it inject stringNeedA
             it inject integerNeedC
@@ -62,9 +65,5 @@ internal class SnapshotTest {
             assertNull(changes.changes.first().originalValue)
             assertEquals("A2", changes.changes.first().currentValue)
         }
-    }
-
-    private enum class TestLabels: NeedLabel {
-        A, B, C
     }
 }

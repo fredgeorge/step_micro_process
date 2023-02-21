@@ -23,6 +23,8 @@ class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>
         return SATISFIED
     }
 
+    internal operator fun contains(label: NeedLabel) = needs.containsKey(label)
+
     fun snapshot() = Status(needs.map { it.key to it.value.clone() }.toMap().toMutableMap())
 
     infix fun diff(other: Status) = Changes().also { changes ->

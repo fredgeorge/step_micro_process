@@ -7,9 +7,8 @@
 package com.nrkei.microprocess.step.unit
 
 import com.nrkei.microprocess.step.needs.IntegerNeed
-import com.nrkei.microprocess.step.needs.NeedLabel
 import com.nrkei.microprocess.step.needs.NeedState.*
-import com.nrkei.microprocess.step.unit.IntegerRangeTest.TestLabel.I
+import com.nrkei.microprocess.step.util.TestLabel.I
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -57,9 +56,5 @@ internal class IntegerRangeTest {
             need.reset()
             assertEquals(UNSATISFIED, need.state)
         }
-    }
-
-    private enum class TestLabel : NeedLabel {
-        I
     }
 }

@@ -7,9 +7,8 @@
 package com.nrkei.microprocess.step.unit
 
 import com.nrkei.microprocess.step.needs.ChoiceNeed
-import com.nrkei.microprocess.step.needs.NeedLabel
 import com.nrkei.microprocess.step.needs.NeedState
-import com.nrkei.microprocess.step.unit.ChoiceNeedTest.TestLabels.A
+import com.nrkei.microprocess.step.util.TestLabel.A
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,9 +26,5 @@ internal class ChoiceNeedTest {
             need.reset()
             assertEquals(NeedState.UNSATISFIED, need.state)
         }
-    }
-
-    private enum class TestLabels: NeedLabel {
-        A
     }
 }
