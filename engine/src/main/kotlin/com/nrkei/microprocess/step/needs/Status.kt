@@ -23,6 +23,9 @@ class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>
         return SATISFIED
     }
 
+    operator fun get(label: NeedLabel) = needs[label]
+        ?: throw IllegalArgumentException("Label ${label.name} is not currently in the Status")
+
     internal operator fun contains(label: NeedLabel) = needs.containsKey(label)
 
     fun snapshot() = Status(needs.map { it.key to it.value.clone() }.toMap().toMutableMap())

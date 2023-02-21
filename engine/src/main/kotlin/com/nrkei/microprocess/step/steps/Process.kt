@@ -6,6 +6,7 @@
 
 package com.nrkei.microprocess.step.steps
 
+import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
 import com.nrkei.microprocess.step.needs.Status
 
 // Understands work that needs to be completed
@@ -20,5 +21,6 @@ class Process(private val steps: List<Step>) {
 
     private fun readyToExecute(step: Step, status: Status) =
         step.requiredLabels.all { it in status } &&
-                step.forbiddenLabels.all { it !in status }
+                step.forbiddenLabels.all { it !in status } &&
+                step.validLabels.all { it in status && status[it].state == SATISFIED }
 }

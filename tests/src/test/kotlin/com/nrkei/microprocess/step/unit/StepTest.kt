@@ -6,13 +6,14 @@
 
 package com.nrkei.microprocess.step.unit
 
+import com.nrkei.microprocess.step.needs.IntegerNeed
 import com.nrkei.microprocess.step.needs.Status
-import com.nrkei.microprocess.step.steps.Process
 import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.steps.Process
 import com.nrkei.microprocess.step.util.ForbiddenLabelsStep
 import com.nrkei.microprocess.step.util.RequiredLabelsStep
-import com.nrkei.microprocess.step.util.TestLabel.A
-import com.nrkei.microprocess.step.util.TestLabel.B
+import com.nrkei.microprocess.step.util.TestLabel.*
+import com.nrkei.microprocess.step.util.ValidLabelsStep
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,12 +21,14 @@ import org.junit.jupiter.api.Test
 internal class StepTest {
     private lateinit var stringNeedA: StringValueNeed
     private lateinit var stringNeedB: StringValueNeed
+    private lateinit var integerNeedI: IntegerNeed
     private lateinit var status: Status
 
     @BeforeEach
     fun setup() {
         stringNeedA = StringValueNeed(A)
         stringNeedB = StringValueNeed(B)
+        integerNeedI = IntegerNeed.range(I, 18, 65)
         status = Status().also { status ->
             status inject stringNeedA
         }
@@ -48,6 +51,27 @@ internal class StepTest {
                 status inject stringNeedB
                 process execute status
                 assertEquals(1, step.executionCount)
+            }
+        }
+    }
+
+    @Test fun `label initially invalid`() {
+        ValidLabelsStep(I).also { step ->
+            Process(step).also { process ->
+                process execute status
+                assertEquals(0, step.executionCount)
+                status inject integerNeedI
+                process execute status
+                assertEquals(0, step.executionCount)  // Exists, but not set
+                integerNeedI be 16
+                process execute status
+                assertEquals(0, step.executionCount) // Exists, but invalid
+                integerNeedI be 22
+                process execute status
+                assertEquals(1, step.executionCount) // Exists and valid
+                integerNeedI be 67
+                process execute status
+                assertEquals(1, step.executionCount) // Exists but invalid again
             }
         }
     }

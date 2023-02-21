@@ -22,7 +22,6 @@ internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel): Step {
     override fun execute(status: Status) {
         executionCount += 1
     }
-
 }
 
 internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel): Step {
@@ -33,5 +32,14 @@ internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel): Step {
     override fun execute(status: Status) {
         executionCount += 1
     }
+}
 
+internal class ValidLabelsStep(vararg validLabels: NeedLabel): Step {
+    override val validLabels = validLabels.toList()
+
+    internal var executionCount = 0
+
+    override fun execute(status: Status) {
+        executionCount += 1
+    }
 }
