@@ -24,3 +24,14 @@ internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel): Step {
     }
 
 }
+
+internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel): Step {
+    override val forbiddenLabels = forbiddenLabels.toList()
+
+    internal var executionCount = 0
+
+    override fun execute(status: Status) {
+        executionCount += 1
+    }
+
+}

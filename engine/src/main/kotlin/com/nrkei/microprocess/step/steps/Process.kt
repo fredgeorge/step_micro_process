@@ -19,5 +19,6 @@ class Process(private val steps: List<Step>) {
     }
 
     private fun readyToExecute(step: Step, status: Status) =
-        step.requiredLabels.all { it in status }
+        step.requiredLabels.all { it in status } &&
+                step.forbiddenLabels.all { it !in status }
 }
