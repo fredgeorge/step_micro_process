@@ -14,6 +14,7 @@ import com.nrkei.microprocess.step.util.ForbiddenLabelsStep
 import com.nrkei.microprocess.step.util.RequiredLabelsStep
 import com.nrkei.microprocess.step.util.TestLabel.*
 import com.nrkei.microprocess.step.util.ValidLabelsStep
+import com.nrkei.microprocess.step.util.ValuesStep
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -72,6 +73,24 @@ internal class StepTest {
                 integerNeedI be 67
                 process execute status
                 assertEquals(1, step.executionCount) // Exists but invalid again
+            }
+        }
+    }
+
+    @Test fun `label must have specific value`() {
+        ValuesStep(A to "A2").also { step ->
+            Process(step).also { process ->
+                process execute status
+                assertEquals(0, step.executionCount) // No value yet
+                stringNeedA be "A1"
+                process execute status
+                assertEquals(0, step.executionCount)  // Wrong value
+                stringNeedA be "A2"
+                process execute status
+                assertEquals(1, step.executionCount)  // Correct value
+                stringNeedA be "A3"
+                process execute status
+                assertEquals(1, step.executionCount)  // Wrong value again
             }
         }
     }

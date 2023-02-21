@@ -43,3 +43,13 @@ internal class ValidLabelsStep(vararg validLabels: NeedLabel): Step {
         executionCount += 1
     }
 }
+
+internal class ValuesStep(vararg values: Pair<NeedLabel, Any>): Step {
+    override val requiredValues = values.toMap()
+
+    internal var executionCount = 0
+
+    override fun execute(status: Status) {
+        executionCount += 1
+    }
+}

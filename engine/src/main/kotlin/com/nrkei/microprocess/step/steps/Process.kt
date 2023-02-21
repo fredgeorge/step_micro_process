@@ -11,7 +11,7 @@ import com.nrkei.microprocess.step.needs.Status
 
 // Understands work that needs to be completed
 class Process(private val steps: List<Step>) {
-    constructor(vararg steps: Step): this(steps.toList())
+    constructor(vararg steps: Step) : this(steps.toList())
 
     infix fun execute(status: Status) {
         steps.forEach {
@@ -22,5 +22,6 @@ class Process(private val steps: List<Step>) {
     private fun readyToExecute(step: Step, status: Status) =
         step.requiredLabels.all { it in status } &&
                 step.forbiddenLabels.all { it !in status } &&
-                step.validLabels.all { it in status && status[it].state == SATISFIED }
+                step.validLabels.all { it in status && status[it].state == SATISFIED } &&
+                step.requiredValues.all { it.key in status && status[it.key].currentValue() == it.value }
 }
