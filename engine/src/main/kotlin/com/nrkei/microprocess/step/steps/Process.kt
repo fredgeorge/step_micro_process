@@ -14,9 +14,17 @@ class Process(private val steps: List<Step>) {
     constructor(vararg steps: Step) : this(steps.toList())
 
     infix fun execute(status: Status) {
-        steps.forEach {
-            if (readyToExecute(it, status)) it execute status
-        }
+        var snapshot: Status
+        val maxCycleCount = steps.size * (steps.size + 2)
+        var cycleCount = 0
+        do {
+            cycleCount += 1
+            snapshot = status.snapshot()
+            steps.forEach {
+                if (readyToExecute(it, status)) it execute status
+            }
+            if (cycleCount > maxCycleCount) throw IllegalStateException("Status not converging; suspect unstable Step")
+        } while (!(status diff snapshot).isEmpty())
     }
 
     private fun readyToExecute(step: Step, status: Status) =

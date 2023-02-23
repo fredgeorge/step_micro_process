@@ -11,11 +11,11 @@ import com.nrkei.microprocess.step.needs.Status
 import com.nrkei.microprocess.step.needs.StringValueNeed
 import com.nrkei.microprocess.step.steps.Step
 
-internal enum class TestLabel: NeedLabel {
+internal enum class TestLabel : NeedLabel {
     A, B, C, D, I
 }
 
-internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel): Step {
+internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel) : Step {
     override val requiredLabels = requiredLabels.toList()
 
     internal var executionCount = 0
@@ -25,7 +25,7 @@ internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel): Step {
     }
 }
 
-internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel): Step {
+internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel) : Step {
     override val forbiddenLabels = forbiddenLabels.toList()
 
     internal var executionCount = 0
@@ -35,7 +35,7 @@ internal class ForbiddenLabelsStep(vararg forbiddenLabels: NeedLabel): Step {
     }
 }
 
-internal class ValidLabelsStep(vararg validLabels: NeedLabel): Step {
+internal class ValidLabelsStep(vararg validLabels: NeedLabel) : Step {
     override val validLabels = validLabels.toList()
 
     internal var executionCount = 0
@@ -45,7 +45,7 @@ internal class ValidLabelsStep(vararg validLabels: NeedLabel): Step {
     }
 }
 
-internal class ValuesStep(vararg values: Pair<NeedLabel, Any>): Step {
+internal class ValuesStep(vararg values: Pair<NeedLabel, Any>) : Step {
     override val requiredValues = values.toMap()
 
     internal var executionCount = 0
@@ -67,5 +67,16 @@ internal class NeedSetStep(
     override fun execute(status: Status) {
         executionCount += 1
         status inject StringValueNeed(forbiddenLabel).also { need -> need be "${forbiddenLabel.name}$executionCount" }
+    }
+}
+
+internal class EveryChangingStep(
+    private val need: StringValueNeed
+) : Step {
+    private var executionCount = 0
+
+    override fun execute(status: Status) {
+        executionCount += 1
+        need be "${need.label.name}$executionCount"
     }
 }

@@ -6,18 +6,18 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.IntegerNeed
-import com.nrkei.microprocess.step.needs.NeedState
-import com.nrkei.microprocess.step.needs.NeedState.*
+import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
+import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
 import com.nrkei.microprocess.step.needs.Status
 import com.nrkei.microprocess.step.needs.StringValueNeed
 import com.nrkei.microprocess.step.steps.Process
+import com.nrkei.microprocess.step.util.EveryChangingStep
 import com.nrkei.microprocess.step.util.NeedSetStep
-import com.nrkei.microprocess.step.util.TestLabel
 import com.nrkei.microprocess.step.util.TestLabel.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class ProcessTest {
     private lateinit var stringNeedA: StringValueNeed
@@ -49,6 +49,30 @@ internal class ProcessTest {
             process execute status
             assertEquals(SATISFIED, status.state)
             assertEquals("D1", status[D].currentValue()) // Because of forbiddenLabels, D not updated!
+        }
+    }
+
+    @Test
+    fun `steps out of order`() {
+        Process(NeedSetStep(C, D), NeedSetStep(B, C), NeedSetStep(A, B)).also { process ->
+            process execute status
+            assertEquals(UNSATISFIED, status.state)
+            stringNeedA be "A1"
+            process execute status
+            assertEquals(SATISFIED, status.state)
+            assertEquals("D1", status[D].currentValue())
+            process execute status
+            assertEquals(SATISFIED, status.state)
+            assertEquals("D1", status[D].currentValue()) // Because of forbiddenLabels, D not updated!
+        }
+    }
+
+    @Test
+    fun `infinite Step loop detected`() {
+//        Process(NeedSetStep(B, C), NeedSetStep(A, B), EveryChangingStep(stringNeedD)).also { process ->
+        Process(EveryChangingStep(stringNeedD)).also { process ->
+            status inject stringNeedD
+            assertThrows<IllegalStateException> { process execute status }
         }
     }
 }
