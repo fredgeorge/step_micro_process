@@ -8,10 +8,11 @@ package com.nrkei.microprocess.step.util
 
 import com.nrkei.microprocess.step.needs.NeedLabel
 import com.nrkei.microprocess.step.needs.Status
+import com.nrkei.microprocess.step.needs.StringValueNeed
 import com.nrkei.microprocess.step.steps.Step
 
 internal enum class TestLabel: NeedLabel {
-    A, B, I
+    A, B, C, D, I
 }
 
 internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel): Step {
@@ -51,5 +52,20 @@ internal class ValuesStep(vararg values: Pair<NeedLabel, Any>): Step {
 
     override fun execute(status: Status) {
         executionCount += 1
+    }
+}
+
+internal class NeedSetStep(
+    requiredLabel: NeedLabel,
+    private val forbiddenLabel: NeedLabel
+) : Step {
+    override val validLabels = listOf(requiredLabel)
+    override val forbiddenLabels = listOf(forbiddenLabel)
+
+    private var executionCount = 0
+
+    override fun execute(status: Status) {
+        executionCount += 1
+        status inject StringValueNeed(forbiddenLabel).also { need -> need be "${forbiddenLabel.name}$executionCount" }
     }
 }
