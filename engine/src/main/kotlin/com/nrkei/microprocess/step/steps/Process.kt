@@ -13,18 +13,19 @@ import com.nrkei.microprocess.step.needs.Status
 class Process(private val steps: List<Step>) {
     constructor(vararg steps: Step) : this(steps.toList())
 
-    infix fun execute(status: Status) {
+    fun execute(status: Status, trace: Trace) {
         var snapshot: Status
-        val maxCycleCount = steps.size * (steps.size + 2)
+        val maxCycleCount = steps.size + 2
         var cycleCount = 0
         do {
             cycleCount += 1
+            trace registerPass cycleCount
             snapshot = status.snapshot()
             steps.forEach {
                 if (readyToExecute(it, status)) it execute status
             }
             if (cycleCount > maxCycleCount) throw IllegalStateException("Status not converging; suspect unstable Step")
-        } while (!(status diff snapshot).isEmpty())
+        } while ((status diff snapshot).also { trace log it }.let { !it.isEmpty()})
     }
 
     private fun readyToExecute(step: Step, status: Status) =

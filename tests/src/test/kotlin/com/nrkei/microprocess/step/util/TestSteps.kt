@@ -70,7 +70,7 @@ internal class NeedSetStep(
     }
 }
 
-internal class EveryChangingStep(
+internal class EverChangingStep(
     private val need: StringValueNeed
 ) : Step {
     private var executionCount = 0
