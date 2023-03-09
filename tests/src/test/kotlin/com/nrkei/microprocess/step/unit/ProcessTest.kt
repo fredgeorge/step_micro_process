@@ -78,7 +78,6 @@ internal class ProcessTest {
         Process(NeedSetStep(B, C), NeedSetStep(A, B), EverChangingStep(stringNeedD)).also { process ->
             status inject stringNeedD
             assertThrows<IllegalStateException> { process.execute(status, trace) }
-            println(trace)
         }
     }
 }
