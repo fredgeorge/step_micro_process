@@ -23,7 +23,7 @@ Adapt as necessary for your environment.
 
 Note: This implementation was setup to use:
 
-- IntelliJ 2022.3.2 (Ultimate Edition)
+- IntelliJ 2022.3.3 (Ultimate Edition)
 - Kotlin 1.8.0
 - Java SDK 19 (Oracle)
 - Gradle 7.6
