@@ -50,7 +50,7 @@ class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>
         lateinit var deletions: List<Need>
         lateinit var changes: List<Change>
 
-        fun isEmpty() = additions.isEmpty() && deletions.isEmpty() && changes.isEmpty()
+        fun hasChanges() = additions.isNotEmpty() || deletions.isNotEmpty() || changes.isNotEmpty()
     }
 
     data class Change internal constructor(val label: NeedLabel, val originalValue: Any?, val currentValue: Any?)

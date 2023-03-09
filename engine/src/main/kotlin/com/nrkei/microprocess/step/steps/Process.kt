@@ -15,7 +15,7 @@ class Process(private val steps: List<Step>) {
 
     fun execute(status: Status, trace: Trace) {
         var snapshot: Status
-        val maxCycleCount = steps.size + 2
+        val maxCycleCount = steps.size + 1
         var cycleCount = 0
         do {
             cycleCount += 1
@@ -27,7 +27,7 @@ class Process(private val steps: List<Step>) {
                 trace.endStep(status)
             }
             if (cycleCount > maxCycleCount) throw IllegalStateException("Status not converging; suspect unstable Step")
-        } while (!(status diff snapshot).isEmpty())
+        } while ((status diff snapshot).hasChanges())
     }
 
     private fun readyToExecute(step: Step, status: Status) =

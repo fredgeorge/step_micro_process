@@ -35,7 +35,7 @@ internal class SnapshotTest {
     }
 
     @Test fun `No changes after snapshot`() {
-        assertTrue((current diff snapshot).isEmpty())
+        assertFalse((current diff snapshot).hasChanges())
     }
 
     @Test fun `Additions detected`() {

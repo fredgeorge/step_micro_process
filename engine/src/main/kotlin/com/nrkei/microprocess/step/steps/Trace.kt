@@ -26,8 +26,8 @@ class Trace{
     }
 
     internal infix fun endStep(status: Status) {
-        log.append("\t\tStep <${currentStep.name}> made ")
-        log.append(if (status.diff(initialStatus).isEmpty()) "no changes" else "changes")
+        log.append("\tStep <${currentStep.name}> made ")
+        log.append(if (status.diff(initialStatus).hasChanges()) "changes" else "no changes")
         log.append("\n")
     }
 }
