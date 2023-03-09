@@ -22,10 +22,12 @@ class Process(private val steps: List<Step>) {
             trace registerPass cycleCount
             snapshot = status.snapshot()
             steps.forEach {
+                trace.startStep(it, status)
                 if (readyToExecute(it, status)) it execute status
+                trace.endStep(status)
             }
             if (cycleCount > maxCycleCount) throw IllegalStateException("Status not converging; suspect unstable Step")
-        } while ((status diff snapshot).also { trace log it }.let { !it.isEmpty()})
+        } while (!(status diff snapshot).isEmpty())
     }
 
     private fun readyToExecute(step: Step, status: Status) =

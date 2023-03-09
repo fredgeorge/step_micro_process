@@ -61,6 +61,7 @@ internal class NeedSetStep(
 ) : Step {
     override val validLabels = listOf(requiredLabel)
     override val forbiddenLabels = listOf(forbiddenLabel)
+    override val name = "Require ${requiredLabel.name} to set ${forbiddenLabel.name}"
 
     private var executionCount = 0
 

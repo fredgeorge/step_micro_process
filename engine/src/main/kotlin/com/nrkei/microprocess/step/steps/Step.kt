@@ -16,5 +16,7 @@ interface Step {
     val requiredValues: Map<NeedLabel, Any> get() = emptyMap()
     val forbiddenLabels: List<NeedLabel> get() = emptyList()
 
+    val name: String get() = this.javaClass.simpleName
+
     infix fun execute(status: Status)
 }

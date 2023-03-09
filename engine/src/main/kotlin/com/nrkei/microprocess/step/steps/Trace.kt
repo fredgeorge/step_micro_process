@@ -11,14 +11,23 @@ import com.nrkei.microprocess.step.needs.Status
 // Understands the sequence and consequences of Steps
 class Trace{
     private val log = StringBuilder()
+    private lateinit var currentStep: Step
+    private lateinit var initialStatus: Status
 
-    infix fun registerPass(passNumber: Int) { log.append("Pass $passNumber\n") }
+    internal infix fun registerPass(passNumber: Int) { log.append("Pass $passNumber\n") }
 
     override fun toString() = log.toString()
 
     fun reset() { log.clear() }
 
-    infix fun log(changes: Status.Changes) {
-        log.append("\tChanges were${if (changes.isEmpty()) " not" else ""} made\n")
+    internal fun startStep(step: Step, status: Status) {
+        currentStep = step
+        initialStatus = status.snapshot()
+    }
+
+    internal infix fun endStep(status: Status) {
+        log.append("\t\tStep <${currentStep.name}> made ")
+        log.append(if (status.diff(initialStatus).isEmpty()) "no changes" else "changes")
+        log.append("\n")
     }
 }
