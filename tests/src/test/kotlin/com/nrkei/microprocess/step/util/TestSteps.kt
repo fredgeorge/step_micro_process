@@ -7,12 +7,18 @@
 package com.nrkei.microprocess.step.util
 
 import com.nrkei.microprocess.step.needs.NeedLabel
+import com.nrkei.microprocess.step.needs.Role
 import com.nrkei.microprocess.step.needs.Status
 import com.nrkei.microprocess.step.needs.StringValue
 import com.nrkei.microprocess.step.steps.Step
+import com.nrkei.microprocess.step.util.TestRole.*
 
-internal enum class TestLabel : NeedLabel {
-    A, B, C, D, I
+internal enum class TestLabel(override val role: Role) : NeedLabel {
+    A(PLAYER_1), B(PLAYER_2), C(PLAYER_3), D(PLAYER_1), I(PLAYER_1), J(PLAYER_2)
+}
+
+internal enum class TestRole: Role {
+    PLAYER_1, PLAYER_2, PLAYER_3
 }
 
 internal class RequiredLabelsStep(vararg requiredLabels: NeedLabel) : Step {

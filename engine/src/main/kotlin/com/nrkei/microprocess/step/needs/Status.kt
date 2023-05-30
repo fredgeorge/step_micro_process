@@ -36,6 +36,10 @@ class Status internal constructor(private val needs: MutableMap<NeedLabel, Need>
         changes.changes = valueDifferences(other)
     }
 
+    fun keepOnly(role: Role) {
+        needs.keys.filterNot { it.role == role }.forEach { needs.remove(it) }
+    }
+
     private fun additionsTo(other: Status): List<Need> =
         (this.needs.keys - other.needs.keys).mapNotNull { this.needs[it] }
 
