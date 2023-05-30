@@ -10,7 +10,7 @@ import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
 import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
 
 // Understands a text-based choice
-class StringValueNeed(override val label: NeedLabel): LabeledNeed {
+class StringValue(override val label: NeedLabel): LabeledNeed {
     private var value: String? = null
 
     override val state get() = if (value.isNullOrEmpty()) UNSATISFIED else SATISFIED
@@ -21,11 +21,11 @@ class StringValueNeed(override val label: NeedLabel): LabeledNeed {
 
     fun reset() { this.value = null }
 
-    override fun clone() = StringValueNeed(label).also { it.value = value }
+    override fun clone() = StringValue(label).also { it.value = value }
 
-    override fun equals(other: Any?) = this === other || other is StringValueNeed && this.equals(other)
+    override fun equals(other: Any?) = this === other || other is StringValue && this.equals(other)
 
-    private fun equals(other: StringValueNeed) = this.label == other.label && this.value == other.value
+    private fun equals(other: StringValue) = this.label == other.label && this.value == other.value
 
     override fun hashCode() = value.hashCode() * 37 + label.hashCode()
 }

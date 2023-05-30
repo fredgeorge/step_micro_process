@@ -9,7 +9,7 @@ package com.nrkei.microprocess.step.unit
 import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
 import com.nrkei.microprocess.step.needs.NeedState.UNSATISFIED
 import com.nrkei.microprocess.step.needs.Status
-import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.needs.StringValue
 import com.nrkei.microprocess.step.steps.Process
 import com.nrkei.microprocess.step.steps.Trace
 import com.nrkei.microprocess.step.util.EverChangingStep
@@ -21,19 +21,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 internal class ProcessTest {
-    private lateinit var stringNeedA: StringValueNeed
-    private lateinit var stringNeedB: StringValueNeed
-    private lateinit var stringNeedC: StringValueNeed
-    private lateinit var stringNeedD: StringValueNeed
+    private lateinit var stringNeedA: StringValue
+    private lateinit var stringNeedB: StringValue
+    private lateinit var stringNeedC: StringValue
+    private lateinit var stringNeedD: StringValue
     private lateinit var status: Status
     private lateinit var trace: Trace
 
     @BeforeEach
     fun setup() {
-        stringNeedA = StringValueNeed(A)
-        stringNeedB = StringValueNeed(B)
-        stringNeedC = StringValueNeed(C)
-        stringNeedD = StringValueNeed(D)
+        stringNeedA = StringValue(A)
+        stringNeedB = StringValue(B)
+        stringNeedC = StringValue(C)
+        stringNeedD = StringValue(D)
         status = Status().also { status ->
             status inject stringNeedA
         }

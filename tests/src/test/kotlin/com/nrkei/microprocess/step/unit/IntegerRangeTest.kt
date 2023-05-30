@@ -6,7 +6,7 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.IntegerNeed
+import com.nrkei.microprocess.step.needs.IntegerRange
 import com.nrkei.microprocess.step.needs.NeedState.*
 import com.nrkei.microprocess.step.util.TestLabel.I
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +16,7 @@ internal class IntegerRangeTest {
 
     @Test
     fun `integer range check`() {
-        IntegerNeed.range(I, 18, 64).also { need ->
+        IntegerRange.range(I, 18, 64).also { need ->
             assertEquals(UNSATISFIED, need.state)
             need be 16
             assertEquals(PROBLEM, need.state)
@@ -29,7 +29,7 @@ internal class IntegerRangeTest {
 
     @Test
     fun `positive range with maximum`() {
-        IntegerNeed.positiveWithMax(I, 64).also { need ->
+        IntegerRange.positiveWithMax(I, 64).also { need ->
             assertEquals(UNSATISFIED, need.state)
             need be 70
             assertEquals(PROBLEM, need.state)
@@ -45,7 +45,7 @@ internal class IntegerRangeTest {
 
     @Test
     fun `positive range with minimum`() {
-        IntegerNeed.positiveWithMin(I, 18).also { need ->
+        IntegerRange.positiveWithMin(I, 18).also { need ->
             assertEquals(UNSATISFIED, need.state)
             need be 16
             assertEquals(PROBLEM, need.state)

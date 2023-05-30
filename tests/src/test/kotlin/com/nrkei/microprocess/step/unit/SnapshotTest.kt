@@ -6,27 +6,27 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.IntegerNeed
+import com.nrkei.microprocess.step.needs.IntegerRange
 import com.nrkei.microprocess.step.needs.Need
 import com.nrkei.microprocess.step.needs.Status
-import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.needs.StringValue
 import com.nrkei.microprocess.step.util.TestLabel.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class SnapshotTest {
-    private lateinit var stringNeedA: StringValueNeed
-    private lateinit var stringNeedB: StringValueNeed
-    private lateinit var integerNeedC: IntegerNeed
+    private lateinit var stringNeedA: StringValue
+    private lateinit var stringNeedB: StringValue
+    private lateinit var integerNeedC: IntegerRange
     private lateinit var current: Status
     private lateinit var snapshot: Status
 
     @BeforeEach
     fun setup() {
-        stringNeedA = StringValueNeed(A)
-        stringNeedB = StringValueNeed(B)
-        integerNeedC = IntegerNeed.range(I, 18, 65)
+        stringNeedA = StringValue(A)
+        stringNeedB = StringValue(B)
+        integerNeedC = IntegerRange.range(I, 18, 65)
         current = Status().also {
             it inject stringNeedA
             it inject integerNeedC

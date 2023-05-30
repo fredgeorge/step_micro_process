@@ -9,7 +9,7 @@ package com.nrkei.microprocess.step.needs
 import com.nrkei.microprocess.step.needs.NeedState.*
 
 // Understands a choice within a range of values
-class IntegerNeed private constructor(
+class IntegerRange private constructor(
     override val label: NeedLabel,
     private val minimum: Int,
     private val maximum: Int
@@ -17,13 +17,13 @@ class IntegerNeed private constructor(
 
     companion object {
         fun range(label: NeedLabel, minimum: Int, maximum: Int) =
-            IntegerNeed(label, minimum, maximum)
+            IntegerRange(label, minimum, maximum)
 
         fun positiveWithMax(label: NeedLabel, maximum: Int) =
-            IntegerNeed(label, 1, maximum)
+            IntegerRange(label, 1, maximum)
 
         fun positiveWithMin(label: NeedLabel, minimum: Int) =
-            IntegerNeed(label, minimum, Int.MAX_VALUE)
+            IntegerRange(label, minimum, Int.MAX_VALUE)
     }
 
     private var value: Int? = null
@@ -43,11 +43,11 @@ class IntegerNeed private constructor(
 
     fun reset() { value = null }
 
-    override fun clone() = IntegerNeed(label, minimum, maximum).also { it.value = value }
+    override fun clone() = IntegerRange(label, minimum, maximum).also { it.value = value }
 
-    override fun equals(other: Any?) = this === other || other is IntegerNeed && this.equals(other)
+    override fun equals(other: Any?) = this === other || other is IntegerRange && this.equals(other)
 
-    private fun equals(other: IntegerNeed) =
+    private fun equals(other: IntegerRange) =
         this.label == other.label &&
                 this.minimum == other.minimum &&
                 this.maximum == other.maximum &&

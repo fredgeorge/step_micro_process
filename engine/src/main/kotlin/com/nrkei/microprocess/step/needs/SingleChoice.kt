@@ -8,8 +8,8 @@ package com.nrkei.microprocess.step.needs
 
 import com.nrkei.microprocess.step.needs.NeedState.*
 
-// Understands a multiple value choice
-class ChoiceNeed (override val label: NeedLabel, private val validValues: List<String>) : LabeledNeed {
+// Understands a multiple value choice with a single selection
+class SingleChoice (override val label: NeedLabel, private val validValues: List<String>) : LabeledNeed {
 
     constructor(label: NeedLabel, vararg validValues: String) : this(label, validValues.toList())
 
@@ -27,11 +27,11 @@ class ChoiceNeed (override val label: NeedLabel, private val validValues: List<S
 
     fun reset() { value = null }
 
-    override fun clone() = ChoiceNeed(label, validValues).also { it.value = value }
+    override fun clone() = SingleChoice(label, validValues).also { it.value = value }
 
-    override fun equals(other: Any?) = this === other || other is ChoiceNeed && this.equals(other)
+    override fun equals(other: Any?) = this === other || other is SingleChoice && this.equals(other)
 
-    private fun equals(other: ChoiceNeed) =
+    private fun equals(other: SingleChoice) =
         this.label == other.label && this.validValues == other.validValues && this.value == other.value
 
     override fun hashCode() = label.hashCode() * 37 + validValues.hashCode() * 43 + value.hashCode()

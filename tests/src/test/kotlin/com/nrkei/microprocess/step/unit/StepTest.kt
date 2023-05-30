@@ -6,9 +6,9 @@
 
 package com.nrkei.microprocess.step.unit
 
-import com.nrkei.microprocess.step.needs.IntegerNeed
+import com.nrkei.microprocess.step.needs.IntegerRange
 import com.nrkei.microprocess.step.needs.Status
-import com.nrkei.microprocess.step.needs.StringValueNeed
+import com.nrkei.microprocess.step.needs.StringValue
 import com.nrkei.microprocess.step.steps.Process
 import com.nrkei.microprocess.step.steps.Trace
 import com.nrkei.microprocess.step.util.ForbiddenLabelsStep
@@ -21,17 +21,17 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class StepTest {
-    private lateinit var stringNeedA: StringValueNeed
-    private lateinit var stringNeedB: StringValueNeed
-    private lateinit var integerNeedI: IntegerNeed
+    private lateinit var stringNeedA: StringValue
+    private lateinit var stringNeedB: StringValue
+    private lateinit var integerNeedI: IntegerRange
     private lateinit var status: Status
     private lateinit var trace: Trace
 
     @BeforeEach
     fun setup() {
-        stringNeedA = StringValueNeed(A)
-        stringNeedB = StringValueNeed(B)
-        integerNeedI = IntegerNeed.range(I, 18, 65)
+        stringNeedA = StringValue(A)
+        stringNeedB = StringValue(B)
+        integerNeedI = IntegerRange.range(I, 18, 65)
         status = Status().also { status ->
             status inject stringNeedA
         }
