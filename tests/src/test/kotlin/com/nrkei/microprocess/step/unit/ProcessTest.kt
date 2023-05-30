@@ -13,8 +13,10 @@ import com.nrkei.microprocess.step.needs.StringValue
 import com.nrkei.microprocess.step.steps.Process
 import com.nrkei.microprocess.step.steps.Trace
 import com.nrkei.microprocess.step.util.EverChangingStep
+import com.nrkei.microprocess.step.util.ExpansionStep
 import com.nrkei.microprocess.step.util.NeedSetStep
 import com.nrkei.microprocess.step.util.TestLabel.*
+import com.nrkei.microprocess.step.util.ValidLabelsStep
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,8 +42,7 @@ internal class ProcessTest {
         trace = Trace()
     }
 
-    @Test
-    fun `steps in order`() {
+    @Test fun `steps in order`() {
         Process(NeedSetStep(A, B), NeedSetStep(B, C), NeedSetStep(C, D)).also { process ->
             process.execute(status, trace)
             assertEquals(UNSATISFIED, status.state)
@@ -55,8 +56,7 @@ internal class ProcessTest {
         }
     }
 
-    @Test
-    fun `steps out of order`() {
+    @Test fun `steps out of order`() {
         Process(NeedSetStep(C, D), NeedSetStep(B, C), NeedSetStep(A, B)).also { process ->
             process.execute(status, trace)
             assertEquals(UNSATISFIED, status.state)
@@ -73,11 +73,18 @@ internal class ProcessTest {
         }
     }
 
-    @Test
-    fun `infinite Step loop detected`() {
+    @Test fun `infinite Step loop detected`() {
         Process(NeedSetStep(B, C), NeedSetStep(A, B), EverChangingStep(stringNeedD)).also { process ->
             status inject stringNeedD
             assertThrows<IllegalStateException> { process.execute(status, trace) }
+        }
+    }
+
+    @Test fun `Step added dynamically`() {
+        Process(ValidLabelsStep(I), ExpansionStep(ValidLabelsStep(J))).also { process ->
+            assertEquals(2, process.size)
+            process.execute(Status(), Trace())
+            assertEquals(3, process.size)
         }
     }
 }
