@@ -18,5 +18,5 @@ interface Step {
 
     val name: String get() = this.javaClass.simpleName
 
-    infix fun execute(status: Status)
+    infix fun execute(status: Status): List<Step>
 }

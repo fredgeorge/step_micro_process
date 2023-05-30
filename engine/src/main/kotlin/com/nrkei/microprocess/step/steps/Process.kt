@@ -10,27 +10,27 @@ import com.nrkei.microprocess.step.needs.NeedState.SATISFIED
 import com.nrkei.microprocess.step.needs.Status
 
 // Understands work that needs to be completed
-class Process(private val steps: List<Step>) {
-    constructor(vararg steps: Step) : this(steps.toList())
+class Process(private val steps: MutableList<Step>) : MutableList<Step> by steps {
+    constructor(vararg steps: Step) : this(steps.toList().toMutableList())
 
     fun execute(status: Status, trace: Trace) {
         var snapshot: Status
-        var stepsCount = steps.size
         var cycleCount = 0
         do {
             cycleCount += 1
             trace registerPass cycleCount
             snapshot = status.snapshot()
+            val newSteps = mutableListOf<Step>()
             steps.forEach {
                 trace.startStep(it, status)
-                if (readyToExecute(it, status)) it execute status
+                if (readyToExecute(it, status)) it.execute(status).also { newSteps.addAll(it) }
                 trace.endStep(status)
             }
-            if (steps.size != stepsCount) {  // new Steps created
-                stepsCount = steps.size
+            if (newSteps.isNotEmpty()) {  // new Steps created
+                steps.addAll(newSteps)
                 cycleCount = 0
             }
-            if (cycleCount > stepsCount + 1) throw IllegalStateException("Status not converging; suspect unstable Step")
+            if (cycleCount > steps.size + 1) throw IllegalStateException("Status not converging; suspect unstable Step")
         } while ((status diff snapshot).hasChanges())
     }
 
