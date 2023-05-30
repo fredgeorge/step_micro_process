@@ -6,6 +6,8 @@
 
 package com.nrkei.microprocess.step.needs
 
+import com.nrkei.microprocess.step.needs.StandardRole.ANYONE
+
 // Understands a choice
 interface Need {
     val state: NeedState
@@ -21,9 +23,19 @@ enum class NeedState {
 // Identifies a specific choice
 interface NeedLabel {
     val name: String
+    val role: Role get() = ANYONE
 }
 
 // A self-identifing choice
 interface LabeledNeed: Need {
     val label: NeedLabel
+}
+
+// A participant in providing information
+interface Role {
+    val name: String
+}
+
+enum class StandardRole: Role {
+    ANYONE
 }
